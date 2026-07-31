@@ -3,7 +3,7 @@ import Container from "../components/common/Container";
 function Home() {
   return (
     <Container>
-      <h1 className="text-4xl font-bold mb-6">Home</h1>
+      <h1 className="text-4xl font-bold mb-6">Home Upadted changes</h1>
 
       {/* Hero Component */}
 
