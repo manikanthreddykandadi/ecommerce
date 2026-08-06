@@ -1,15 +1,28 @@
 import Container from "../components/common/Container";
+import Hero from "../components/home/Hero";
+import Categories from "../components/home/Categories";
+import FeaturedProducts from "../components/home/FeaturedProducts";
+import OfferBanner from "../components/home/OfferBanner";
+import LatestProducts from "../components/home/LatestProducts";
+import WhyChooseUs from "../components/home/WhyChooseUs";
+import Newsletter from "../components/home/Newsletter";
 
 function Home() {
   return (
     <Container>
-      <h1 className="text-4xl font-bold mb-6">Home Upadted changes</h1>
+      <Hero />
 
-      {/* Hero Component */}
+      <Categories />
 
-      {/* Categories Component */}
+      <FeaturedProducts />
 
-      {/* Featured Products Component */}
+      <OfferBanner />
+
+      <LatestProducts />
+
+      <WhyChooseUs />
+
+      <Newsletter />
     </Container>
   );
 }

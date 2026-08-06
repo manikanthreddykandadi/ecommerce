@@ -1,14 +1,23 @@
-import Container from "../components/common/Container";
+import ProductFilters from "../components/products/ProductFilters";
+import ProductGrid from "../components/products/ProductGrid";
 
 function Products() {
   return (
-    <Container>
-      <h1 className="text-4xl font-bold mb-6">Products</h1>
+    <section className="max-w-7xl mx-auto px-4 py-10">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900">
+          Our Products
+        </h1>
 
-      {/* Product Filters */}
+        <p className="mt-2 text-gray-600">
+          Browse our latest collection.
+        </p>
+      </div>
 
-      {/* Product Grid */}
-    </Container>
+      <ProductFilters />
+
+      <ProductGrid />
+    </section>
   );
 }
 
