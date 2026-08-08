@@ -1,4 +1,3 @@
-// import ProductCard from "../products/ProductCard";
 import { products } from "../../data/products";
 import type { Product } from "../../types/Product";
 import ProductCard from "../products/ProductCard";

@@ -1,5 +1,4 @@
 import ProductFilters from "../components/products/ProductFilters";
-import ProductGrid from "../components/products/ProductGrid";
 
 function Products() {
   return (
@@ -15,8 +14,6 @@ function Products() {
       </div>
 
       <ProductFilters />
-
-      <ProductGrid />
     </section>
   );
 }

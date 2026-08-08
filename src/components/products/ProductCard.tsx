@@ -1,21 +1,43 @@
-import type { Product } from "../../types/Product";
+import { useCart } from "../../contexts/CartContext";
 
-type ProductCardProps = Product;
+type ProductCardProps = {
+  id: number;
+  name: string;
+  price: number;
+  oldPrice: number;
+  image: string;
+  rating: number;
+};
 
 export default function ProductCard({
+  id,
   name,
-  image,
-  category,
   price,
   oldPrice,
+  image,
   rating,
-  isLatest,
 }: ProductCardProps) {
+
+  const { addToCart } = useCart();
+
+
+  function handleAddToCart() {
+
+    addToCart({
+      id,
+      name,
+      price,
+      image,
+    });
+
+  }
+
+
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-xl transition duration-300 overflow-hidden group">
 
       {/* Image */}
-      <div className="relative overflow-hidden">
+      <div className="overflow-hidden">
 
         <img
           src={image}
@@ -23,25 +45,16 @@ export default function ProductCard({
           className="w-full h-64 object-cover group-hover:scale-105 transition duration-300"
         />
 
-        {/* Latest Badge */}
-        {isLatest && (
-          <span className="absolute top-3 left-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-            NEW
-          </span>
-        )}
-
       </div>
 
-      {/* Product Info */}
+
+      {/* Product Details */}
       <div className="p-4">
 
-        <p className="text-sm text-gray-500">
-          {category}
-        </p>
-
-        <h3 className="text-lg font-semibold text-gray-800 mt-1">
+        <h3 className="text-lg font-semibold text-gray-800">
           {name}
         </h3>
+
 
         {/* Rating */}
         <div className="flex items-center mt-2">
@@ -51,10 +64,11 @@ export default function ProductCard({
           </span>
 
           <span className="ml-2 text-sm text-gray-500">
-            {rating}
+            ({rating})
           </span>
 
         </div>
+
 
         {/* Price */}
         <div className="flex items-center gap-3 mt-4">
@@ -63,22 +77,23 @@ export default function ProductCard({
             ₹{price}
           </span>
 
-          {oldPrice > price && (
-            <span className="text-gray-400 line-through">
-              ₹{oldPrice}
-            </span>
-          )}
+          <span className="line-through text-gray-400">
+            ₹{oldPrice}
+          </span>
 
         </div>
+
 
         {/* Buttons */}
         <div className="flex gap-3 mt-6">
 
           <button
+            onClick={handleAddToCart}
             className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
           >
             Add to Cart
           </button>
+
 
           <button
             className="border px-4 rounded-lg hover:bg-gray-100 transition"

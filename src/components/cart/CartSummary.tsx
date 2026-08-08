@@ -1,172 +1,66 @@
-import Card from "../ui/Card";
-import { Link } from "react-router-dom";
-
-
 type CartSummaryProps = {
   subtotal: number;
 };
 
-
-function CartSummary({
+export default function CartSummary({
   subtotal,
 }: CartSummaryProps) {
-
-
-  const shipping = subtotal > 0 ? 10 : 0;
-
-
-  const discount = subtotal > 500
-    ? 50
-    : 0;
-
-
-  const total =
-    subtotal + shipping - discount;
-
-
-
   return (
+    <div className="bg-white rounded-xl shadow p-6 h-fit">
 
-    <Card>
-
-
-      <h2 className="
-        text-2xl
-        font-bold
-        mb-6
-      ">
+      {/* Title */}
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
         Cart Summary
       </h2>
 
-
-
-
       {/* Subtotal */}
+      <div className="flex justify-between text-gray-600 mb-4">
+        <span>Subtotal</span>
 
-      <div className="
-        flex
-        justify-between
-        mb-3
-      ">
-
-        <span>
-          Subtotal
+        <span className="font-medium">
+          ₹{subtotal}
         </span>
-
-        <span>
-          ${subtotal}
-        </span>
-
       </div>
-
-
-
 
       {/* Shipping */}
+      <div className="flex justify-between text-gray-600 mb-4">
+        <span>Shipping</span>
 
-      <div className="
-        flex
-        justify-between
-        mb-3
-      ">
-
-        <span>
-          Shipping
+        <span className="text-green-600">
+          Free
         </span>
-
-        <span>
-          ${shipping}
-        </span>
-
       </div>
 
+      {/* Divider */}
+      <div className="border-t border-gray-200 pt-4">
 
+        <div className="flex justify-between text-xl font-bold">
+          <span>Total</span>
 
-
-
-      {/* Discount */}
-
-      <div className="
-        flex
-        justify-between
-        mb-3
-        text-green-600
-      ">
-
-        <span>
-          Discount
-        </span>
-
-        <span>
-          - ${discount}
-        </span>
+          <span className="text-blue-600">
+            ₹{subtotal}
+          </span>
+        </div>
 
       </div>
-
-
-
-
-
-      <hr className="my-5" />
-
-
-
-
-
-      {/* Total */}
-
-      <div className="
-        flex
-        justify-between
-        text-xl
-        font-bold
-      ">
-
-
-        <span>
-          Total
-        </span>
-
-
-        <span className="
-          text-blue-600
-        ">
-          ${total}
-        </span>
-
-
-      </div>
-
-
-
-
 
       {/* Checkout Button */}
-
-      <Link
-        to="/checkout"
+      <button
         className="
-          block
-          text-center
+          w-full
           mt-6
           bg-blue-600
-          hover:bg-blue-700
           text-white
           py-3
           rounded-lg
           font-semibold
+          hover:bg-blue-700
           transition
         "
       >
-        Proceed To Checkout
-      </Link>
+        Proceed to Checkout
+      </button>
 
-
-
-    </Card>
-
+    </div>
   );
 }
-
-
-export default CartSummary;

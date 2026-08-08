@@ -1,135 +1,98 @@
-import Card from "../ui/Card";
-
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+};
 
 type CartItemProps = {
-  product: {
-    id: number;
-    name: string;
-    category: string;
-    image: string;
-    price: number;
-  };
-
+  product: Product;
   quantity: number;
-
   onIncrease: () => void;
   onDecrease: () => void;
   onRemove: () => void;
 };
 
-
-function CartItem({
+export default function CartItem({
   product,
   quantity,
   onIncrease,
   onDecrease,
   onRemove,
 }: CartItemProps) {
-
-
   return (
-    <Card>
+    <div className="bg-white rounded-xl shadow p-5">
 
-      <div className="flex items-center gap-5">
+      <div className="flex flex-col sm:flex-row gap-5">
 
-
-        {/* Image */}
-
-        <img
-          src={product.image}
-          alt={product.name}
-          className="
-            w-24
-            h-24
-            rounded-lg
-            object-cover
-          "
-        />
-
-
+        {/* Product Image */}
+        <div className="shrink-0">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full sm:w-32 h-32 object-cover rounded-lg"
+          />
+        </div>
 
         {/* Product Details */}
-
         <div className="flex-1">
 
-          <h2 className="text-xl font-bold">
+          <h2 className="text-xl font-semibold text-gray-800">
             {product.name}
           </h2>
 
-
-          <p className="text-gray-500">
-            {product.category}
+          <p className="text-gray-500 mt-2">
+            ₹{product.price}
           </p>
 
+          {/* Quantity */}
+          <div className="flex items-center gap-3 mt-5">
 
-          <p className="text-blue-600 font-bold">
-            ${product.price}
-          </p>
+            <button
+              onClick={onDecrease}
+              className="w-9 h-9 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+            >
+              -
+            </button>
 
+            <span className="w-8 text-center font-semibold">
+              {quantity}
+            </span>
+
+            <button
+              onClick={onIncrease}
+              className="w-9 h-9 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+            >
+              +
+            </button>
+
+          </div>
+
+          {/* Remove */}
+          <button
+            onClick={onRemove}
+            className="mt-4 text-red-500 hover:text-red-700 text-sm"
+          >
+            Remove
+          </button>
 
         </div>
 
+        {/* Product Total */}
+        <div className="sm:text-right">
 
+          <p className="text-sm text-gray-500">
+            Total
+          </p>
 
-        {/* Quantity Buttons */}
-
-        <div className="flex items-center gap-3">
-
-
-          <button
-            onClick={onDecrease}
-            className="
-              bg-gray-200
-              px-3
-              py-1
-              rounded
-            "
-          >
-            -
-          </button>
-
-
-          <span className="font-bold">
-            {quantity}
-          </span>
-
-
-          <button
-            onClick={onIncrease}
-            className="
-              bg-gray-200
-              px-3
-              py-1
-              rounded
-            "
-          >
-            +
-          </button>
-
+          <p className="text-xl font-bold text-blue-600 mt-1">
+            ₹{product.price * quantity}
+          </p>
 
         </div>
-
-
-
-        {/* Remove */}
-
-        <button
-          onClick={onRemove}
-          className="
-            text-red-500
-            hover:text-red-700
-          "
-        >
-          Remove
-        </button>
-
 
       </div>
 
-
-    </Card>
+    </div>
   );
 }
-
-
-export default CartItem;

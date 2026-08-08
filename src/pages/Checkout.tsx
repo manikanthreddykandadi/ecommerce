@@ -186,24 +186,24 @@ function Checkout() {
 
           <div className="flex justify-between mb-3">
             <span>Subtotal</span>
-            <span>₹6998</span>
+            <span>$439</span>
           </div>
 
           <div className="flex justify-between mb-3">
             <span>Shipping</span>
-            <span>₹100</span>
+            <span>₹10</span>
           </div>
 
           <div className="flex justify-between mb-3 text-green-600">
             <span>Discount</span>
-            <span>-₹500</span>
+            <span>-$0</span>
           </div>
 
           <hr className="my-4" />
 
           <div className="flex justify-between text-xl font-bold">
             <span>Total</span>
-            <span>₹6598</span>
+            <span>$449</span>
           </div>
 
         </div>

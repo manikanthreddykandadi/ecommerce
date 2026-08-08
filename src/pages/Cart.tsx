@@ -1,203 +1,115 @@
-import { useState } from "react";
 
 import CartItem from "../components/cart/CartItem";
 import CartSummary from "../components/cart/CartSummary";
-
+import { useCart } from "../contexts/CartContext";
 
 function Cart() {
+  // Get cart data and functions from CartContext
+  const {
+    cartItems,
+    increaseQuantity,
+    decreaseQuantity,
+    removeItem,
+  } = useCart();
 
-
-  const [cartItems, setCartItems] = useState([
-    {
-      product: {
-        id: 1,
-        name: "Wireless Headphones",
-        category: "Electronics",
-        image: "https://via.placeholder.com/300",
-        price: 120,
-      },
-      quantity: 2,
-    },
-
-    {
-      product: {
-        id: 2,
-        name: "Smart Watch",
-        category: "Electronics",
-        image: "https://via.placeholder.com/300",
-        price: 199,
-      },
-      quantity: 1,
-    },
-  ]);
-
-
-
-
-  // Increase quantity
-
-  function increaseQuantity(id: number) {
-
-    setCartItems((items) =>
-      items.map((item) =>
-        item.product.id === id
-          ? {
-            ...item,
-            quantity: item.quantity + 1,
-          }
-          : item
-      )
-    );
-
-  }
-
-
-
-
-  // Decrease quantity
-
-  function decreaseQuantity(id: number) {
-
-    setCartItems((items) =>
-      items.map((item) =>
-        item.product.id === id && item.quantity > 1
-          ? {
-            ...item,
-            quantity: item.quantity - 1,
-          }
-          : item
-      )
-    );
-
-  }
-
-
-
-
-
-  // Remove item
-
-  function removeItem(id: number) {
-
-    setCartItems((items) =>
-      items.filter(
-        (item) => item.product.id !== id
-      )
-    );
-
-  }
-
-
-
-
-
+  // ----------------------------------
   // Calculate subtotal
-
-  // const subtotal = cartItems.reduce(
-  //   (total, item) =>
-  //     total + item.product.price * item.quantity,
-  //   0
-  // );
+  // ----------------------------------
 
   let subtotal = 0;
+
   for (let i = 0; i < cartItems.length; i++) {
-    subtotal = subtotal + cartItems[i].product.price * cartItems[i].quantity;
+    subtotal =
+      subtotal +
+      cartItems[i].price * cartItems[i].quantity;
   }
 
-
-
-
   return (
+    <section className="max-w-7xl mx-auto px-6 py-10">
 
-    <section className="
-      max-w-7xl
-      mx-auto
-      px-6
-      py-10
-    ">
+      {/* ----------------------------------
+          Page Title
+      ---------------------------------- */}
 
-
-      <h1 className="
-        text-4xl
-        font-bold
-        mb-8
-      ">
+      <h1 className="text-4xl font-bold mb-8">
         Shopping Cart
       </h1>
 
+      {/* ----------------------------------
+          Main Cart Layout
+      ---------------------------------- */}
 
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
+        {/* ----------------------------------
+            Cart Products
+        ---------------------------------- */}
 
-      <div className="
-        grid
-        grid-cols-1
-        lg:grid-cols-3
-        gap-8
-      ">
+        <div className="lg:col-span-2 space-y-5">
 
+          {cartItems.length === 0 ? (
 
+            // Empty Cart
+            <div className="bg-white rounded-xl shadow p-10 text-center">
 
-        {/* Cart Products */}
+              <h2 className="text-2xl font-semibold text-gray-700">
+                Your cart is empty
+              </h2>
 
-        <div className="
-          lg:col-span-2
-          space-y-5
-        ">
+              <p className="text-gray-500 mt-2">
+                Add some products to your cart.
+              </p>
 
+            </div>
 
+          ) : (
 
-          {cartItems.map((item) => (
+            // Cart Items
+            cartItems.map((item) => (
 
-            <CartItem
+              <CartItem
+                key={item.id}
 
-              key={item.product.id}
+                product={{
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  image: item.image,
+                }}
 
-              product={item.product}
+                quantity={item.quantity}
 
-              quantity={item.quantity}
+                onIncrease={() =>
+                  increaseQuantity(item.id)
+                }
 
+                onDecrease={() =>
+                  decreaseQuantity(item.id)
+                }
 
-              onIncrease={() =>
-                increaseQuantity(item.product.id)
-              }
+                onRemove={() =>
+                  removeItem(item.id)
+                }
+              />
 
+            ))
 
-              onDecrease={() =>
-                decreaseQuantity(item.product.id)
-              }
-
-
-              onRemove={() =>
-                removeItem(item.product.id)
-              }
-
-            />
-
-          ))}
-
-
+          )}
 
         </div>
 
-
-
-
-
-        {/* Cart Summary */}
+        {/* ----------------------------------
+            Cart Summary
+        ---------------------------------- */}
 
         <CartSummary
           subtotal={subtotal}
         />
 
-
-
       </div>
 
-
     </section>
-
   );
 }
-
 
 export default Cart;
