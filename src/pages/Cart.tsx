@@ -1,20 +1,14 @@
-
 import CartItem from "../components/cart/CartItem";
 import CartSummary from "../components/cart/CartSummary";
 import { useCart } from "../contexts/CartContext";
 
 function Cart() {
-  // Get cart data and functions from CartContext
   const {
     cartItems,
     increaseQuantity,
     decreaseQuantity,
     removeItem,
   } = useCart();
-
-  // ----------------------------------
-  // Calculate subtotal
-  // ----------------------------------
 
   let subtotal = 0;
 
@@ -25,86 +19,67 @@ function Cart() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10">
+    <section className="min-h-screen bg-gray-50 py-10">
 
-      {/* ----------------------------------
-          Page Title
-      ---------------------------------- */}
+      <div className="mx-auto max-w-7xl px-6">
 
-      <h1 className="text-4xl font-bold mb-8">
-        Shopping Cart
-      </h1>
+        <h1 className="mb-8 text-4xl font-bold">
+          Shopping Cart
+        </h1>
 
-      {/* ----------------------------------
-          Main Cart Layout
-      ---------------------------------- */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Products */}
+          <div className="space-y-5 lg:col-span-2">
 
-        {/* ----------------------------------
-            Cart Products
-        ---------------------------------- */}
+            {cartItems.length === 0 ? (
 
-        <div className="lg:col-span-2 space-y-5">
+              <div className="rounded-xl bg-white p-10 text-center shadow">
 
-          {cartItems.length === 0 ? (
+                <h2 className="text-2xl font-semibold">
+                  Your cart is empty
+                </h2>
 
-            // Empty Cart
-            <div className="bg-white rounded-xl shadow p-10 text-center">
+                <p className="mt-2 text-gray-500">
+                  Add some products to your cart.
+                </p>
 
-              <h2 className="text-2xl font-semibold text-gray-700">
-                Your cart is empty
-              </h2>
+              </div>
 
-              <p className="text-gray-500 mt-2">
-                Add some products to your cart.
-              </p>
+            ) : (
 
-            </div>
+              cartItems.map((item) => (
+                <CartItem
+                  key={item.id}
+                  product={{
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    image: item.image,
+                  }}
+                  quantity={item.quantity}
+                  onIncrease={() =>
+                    increaseQuantity(item.id)
+                  }
+                  onDecrease={() =>
+                    decreaseQuantity(item.id)
+                  }
+                  onRemove={() =>
+                    removeItem(item.id)
+                  }
+                />
+              ))
 
-          ) : (
+            )}
 
-            // Cart Items
-            cartItems.map((item) => (
+          </div>
 
-              <CartItem
-                key={item.id}
-
-                product={{
-                  id: item.id,
-                  name: item.name,
-                  price: item.price,
-                  image: item.image,
-                }}
-
-                quantity={item.quantity}
-
-                onIncrease={() =>
-                  increaseQuantity(item.id)
-                }
-
-                onDecrease={() =>
-                  decreaseQuantity(item.id)
-                }
-
-                onRemove={() =>
-                  removeItem(item.id)
-                }
-              />
-
-            ))
-
-          )}
+          {/* Summary */}
+          <CartSummary
+            subtotal={subtotal}
+          />
 
         </div>
-
-        {/* ----------------------------------
-            Cart Summary
-        ---------------------------------- */}
-
-        <CartSummary
-          subtotal={subtotal}
-        />
 
       </div>
 
@@ -113,3 +88,4 @@ function Cart() {
 }
 
 export default Cart;
+

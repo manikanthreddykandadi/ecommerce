@@ -4,7 +4,7 @@ import ProductCard from "../products/ProductCard";
 function LatestProducts() {
 
   const latestProducts = products.filter(
-    (product) => product.isLatest
+    (product) => product
   );
 
   return (

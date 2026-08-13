@@ -21,36 +21,37 @@ export default function CartItem({
   onRemove,
 }: CartItemProps) {
   return (
-    <div className="bg-white rounded-xl shadow p-5">
+    <div className="rounded-xl bg-white p-5 shadow">
 
-      <div className="flex flex-col sm:flex-row gap-5">
+      <div className="flex flex-col gap-5 sm:flex-row">
 
-        {/* Product Image */}
+        {/* Image */}
         <div className="shrink-0">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full sm:w-32 h-32 object-cover rounded-lg"
+            className="h-32 w-full rounded-lg object-cover sm:w-32"
           />
         </div>
 
-        {/* Product Details */}
+        {/* Details */}
         <div className="flex-1">
 
           <h2 className="text-xl font-semibold text-gray-800">
             {product.name}
           </h2>
 
-          <p className="text-gray-500 mt-2">
+          <p className="mt-2 text-gray-500">
             ₹{product.price}
           </p>
 
           {/* Quantity */}
-          <div className="flex items-center gap-3 mt-5">
+          <div className="mt-5 flex items-center gap-3">
 
             <button
+              type="button"
               onClick={onDecrease}
-              className="w-9 h-9 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+              className="h-9 w-9 rounded-lg border border-gray-300 hover:bg-gray-100"
             >
               -
             </button>
@@ -60,8 +61,9 @@ export default function CartItem({
             </span>
 
             <button
+              type="button"
               onClick={onIncrease}
-              className="w-9 h-9 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+              className="h-9 w-9 rounded-lg border border-gray-300 hover:bg-gray-100"
             >
               +
             </button>
@@ -70,22 +72,23 @@ export default function CartItem({
 
           {/* Remove */}
           <button
+            type="button"
             onClick={onRemove}
-            className="mt-4 text-red-500 hover:text-red-700 text-sm"
+            className="mt-4 text-sm text-red-500 hover:text-red-700"
           >
             Remove
           </button>
 
         </div>
 
-        {/* Product Total */}
+        {/* Total */}
         <div className="sm:text-right">
 
           <p className="text-sm text-gray-500">
             Total
           </p>
 
-          <p className="text-xl font-bold text-blue-600 mt-1">
+          <p className="mt-1 text-xl font-bold text-blue-600">
             ₹{product.price * quantity}
           </p>
 
@@ -96,3 +99,6 @@ export default function CartItem({
     </div>
   );
 }
+
+
+

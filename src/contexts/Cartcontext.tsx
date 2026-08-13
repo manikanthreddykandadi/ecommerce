@@ -1,8 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-// Cart item
-export type CartItem = {
+type CartItem = {
   id: number;
   name: string;
   price: number;
@@ -10,15 +9,13 @@ export type CartItem = {
   quantity: number;
 };
 
-// Product we send when adding to cart
-export type CartProduct = {
+type CartProduct = {
   id: number;
   name: string;
   price: number;
   image: string;
 };
 
-// Context type
 type CartContextType = {
   cartItems: CartItem[];
 
@@ -132,3 +129,4 @@ export function useCart() {
 
   return context;
 }
+
