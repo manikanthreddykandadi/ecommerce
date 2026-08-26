@@ -2,221 +2,391 @@ import { useState } from "react";
 
 function CheckoutForm() {
   const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-    alert("Order placed successfully!");
+    setOrderPlaced(true);
   }
 
   return (
-    <div className="rounded-xl bg-white p-6 shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-xl shadow p-6 md:p-8"
+    >
 
-      <h2 className="mb-6 text-2xl font-bold text-gray-800">
-        Checkout Details
+      {/* =========================
+          CUSTOMER INFORMATION
+      ========================== */}
+
+      <h2 className="text-2xl font-bold text-gray-900">
+        Customer Information
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <p className="mt-2 text-gray-500">
+        Enter your personal details.
+      </p>
 
-        {/* Full Name */}
-        <div>
-          <label className="mb-2 block font-medium text-gray-700">
-            Full Name
-          </label>
+      {/* Name */}
+      <div className="mt-6">
+        <label className="text-lg font-medium text-gray-800">
+          Full Name
+        </label>
 
-          <input
-            type="text"
-            placeholder="Enter your full name"
-            required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-          />
-        </div>
+        <input
+          type="text"
+          required
+          placeholder="Enter your full name"
+          className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+        />
+      </div>
+
+      {/* Email + Phone */}
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
 
         {/* Email */}
         <div>
-          <label className="mb-2 block font-medium text-gray-700">
+          <label className="text-lg font-medium text-gray-800">
             Email
           </label>
 
           <input
             type="email"
-            placeholder="you@example.com"
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+            placeholder="Enter your email"
+            className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
           />
         </div>
 
         {/* Phone */}
         <div>
-          <label className="mb-2 block font-medium text-gray-700">
+          <label className="text-lg font-medium text-gray-800">
             Phone Number
           </label>
 
           <input
             type="tel"
-            placeholder="Enter your phone number"
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+            placeholder="Enter your phone number"
+            className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
           />
         </div>
 
-        {/* Address */}
+      </div>
+
+
+      {/* =========================
+          SHIPPING ADDRESS
+      ========================== */}
+
+      <h2 className="mt-10 text-2xl font-bold text-gray-900">
+        Shipping Address
+      </h2>
+
+      <p className="mt-2 text-gray-500">
+        Enter the address where you want your order delivered.
+      </p>
+
+      {/* Address */}
+      <div className="mt-6">
+
+        <label className="text-lg font-medium text-gray-800">
+          Address
+        </label>
+
+        <textarea
+          required
+          placeholder="Enter your complete address"
+          rows={5}
+          className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+        />
+
+      </div>
+
+
+      {/* City + State */}
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+        {/* City */}
         <div>
-          <label className="mb-2 block font-medium text-gray-700">
-            Address
+
+          <label className="text-lg font-medium text-gray-800">
+            City
           </label>
 
-          <textarea
-            rows={4}
-            placeholder="Enter your complete address"
+          <input
+            type="text"
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+            placeholder="Enter city"
+            className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
           />
-        </div>
-
-        {/* City and Pincode */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-
-          <div>
-            <label className="mb-2 block font-medium text-gray-700">
-              City
-            </label>
-
-            <input
-              type="text"
-              placeholder="Enter city"
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium text-gray-700">
-              Pincode
-            </label>
-
-            <input
-              type="text"
-              placeholder="Enter pincode"
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
 
         </div>
 
-        {/* Payment Method */}
+        {/* State */}
         <div>
 
-          <h3 className="mb-4 text-xl font-semibold text-gray-800">
-            Payment Method
-          </h3>
+          <label className="text-lg font-medium text-gray-800">
+            State
+          </label>
 
-          <div className="space-y-3">
+          <input
+            type="text"
+            required
+            placeholder="Enter state"
+            className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+          />
 
-            {/* Cash on Delivery */}
-            <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 hover:bg-gray-50">
+        </div>
 
-              <input
-                type="radio"
-                name="payment"
-                value="cod"
-                checked={paymentMethod === "cod"}
-                onChange={(event) =>
-                  setPaymentMethod(event.target.value)
-                }
-              />
+      </div>
 
-              <div>
-                <p className="font-medium">
-                  Cash on Delivery
-                </p>
 
-                <p className="text-sm text-gray-500">
-                  Pay when your order arrives.
-                </p>
-              </div>
+      {/* Pincode + Country */}
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
 
-            </label>
+        {/* Pincode */}
+        <div>
 
-            {/* UPI */}
-            <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 hover:bg-gray-50">
+          <label className="text-lg font-medium text-gray-800">
+            Pincode
+          </label>
 
-              <input
-                type="radio"
-                name="payment"
-                value="upi"
-                checked={paymentMethod === "upi"}
-                onChange={(event) =>
-                  setPaymentMethod(event.target.value)
-                }
-              />
+          <input
+            type="text"
+            required
+            maxLength={6}
+            placeholder="Enter pincode"
+            className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+          />
 
-              <div>
-                <p className="font-medium">
-                  UPI
-                </p>
+        </div>
 
-                <p className="text-sm text-gray-500">
-                  Pay using UPI.
-                </p>
-              </div>
+        {/* Country */}
+        <div>
 
-            </label>
+          <label className="text-lg font-medium text-gray-800">
+            Country
+          </label>
 
-            {/* Card */}
-            <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 hover:bg-gray-50">
+          <input
+            type="text"
+            required
+            defaultValue="India"
+            placeholder="Enter country"
+            className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+          />
 
-              <input
-                type="radio"
-                name="payment"
-                value="card"
-                checked={paymentMethod === "card"}
-                onChange={(event) =>
-                  setPaymentMethod(event.target.value)
-                }
-              />
+        </div>
 
-              <div>
-                <p className="font-medium">
-                  Credit / Debit Card
-                </p>
+      </div>
 
-                <p className="text-sm text-gray-500">
-                  Pay securely using your card.
-                </p>
-              </div>
 
-            </label>
+      {/* =========================
+          PAYMENT METHOD
+      ========================== */}
 
-          </div>
+      <div className="mt-10">
 
-          {/* Card Details */}
-          {paymentMethod === "card" && (
-            <div className="mt-4 space-y-4 rounded-lg bg-gray-50 p-4">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Payment Method
+        </h2>
+
+        <p className="mt-2 text-gray-500">
+          Choose how you want to pay.
+        </p>
+
+
+        <div className="mt-6 space-y-4">
+
+          {/* =====================
+              CASH ON DELIVERY
+          ====================== */}
+
+          <label
+            className={`flex cursor-pointer items-center gap-4 rounded-lg border p-6 transition ${
+              paymentMethod === "cod"
+                ? "border-blue-600 bg-blue-50"
+                : "border-gray-300"
+            }`}
+          >
+
+            <input
+              type="radio"
+              name="payment"
+              value="cod"
+              checked={paymentMethod === "cod"}
+              onChange={(e) =>
+                setPaymentMethod(e.target.value)
+              }
+            />
+
+            <div>
+
+              <p className="text-lg font-medium">
+                Cash on Delivery
+              </p>
+
+              <p className="text-gray-500">
+                Pay when your order arrives.
+              </p>
+
+            </div>
+
+          </label>
+
+
+          {/* =====================
+              UPI
+          ====================== */}
+
+          <label
+            className={`flex cursor-pointer items-center gap-4 rounded-lg border p-6 transition ${
+              paymentMethod === "upi"
+                ? "border-blue-600 bg-blue-50"
+                : "border-gray-300"
+            }`}
+          >
+
+            <input
+              type="radio"
+              name="payment"
+              value="upi"
+              checked={paymentMethod === "upi"}
+              onChange={(e) =>
+                setPaymentMethod(e.target.value)
+              }
+            />
+
+            <div>
+
+              <p className="text-lg font-medium">
+                UPI
+              </p>
+
+              <p className="text-gray-500">
+                Pay using UPI.
+              </p>
+
+            </div>
+
+          </label>
+
+
+          {/* UPI ID */}
+          {paymentMethod === "upi" && (
+            <div className="rounded-lg bg-gray-50 p-5">
+
+              <label className="text-lg font-medium">
+                UPI ID
+              </label>
 
               <input
                 type="text"
-                placeholder="Card Number"
                 required
-                className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                placeholder="example@upi"
+                className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
               />
 
-              <div className="grid grid-cols-2 gap-4">
+            </div>
+          )}
+
+
+          {/* =====================
+              CARD
+          ====================== */}
+
+          <label
+            className={`flex cursor-pointer items-center gap-4 rounded-lg border p-6 transition ${
+              paymentMethod === "card"
+                ? "border-blue-600 bg-blue-50"
+                : "border-gray-300"
+            }`}
+          >
+
+            <input
+              type="radio"
+              name="payment"
+              value="card"
+              checked={paymentMethod === "card"}
+              onChange={(e) =>
+                setPaymentMethod(e.target.value)
+              }
+            />
+
+            <div>
+
+              <p className="text-lg font-medium">
+                Credit / Debit Card
+              </p>
+
+              <p className="text-gray-500">
+                Pay securely using your card.
+              </p>
+
+            </div>
+
+          </label>
+
+
+          {/* CARD DETAILS */}
+
+          {paymentMethod === "card" && (
+            <div className="rounded-lg bg-gray-50 p-5">
+
+              {/* Card Number */}
+              <div>
+
+                <label className="text-lg font-medium">
+                  Card Number
+                </label>
 
                 <input
                   type="text"
-                  placeholder="MM/YY"
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  maxLength={16}
+                  placeholder="1234 5678 9012 3456"
+                  className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
                 />
 
-                <input
-                  type="password"
-                  placeholder="CVV"
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
-                />
+              </div>
+
+
+              {/* Expiry + CVV */}
+              <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+                <div>
+
+                  <label className="text-lg font-medium">
+                    Expiry Date
+                  </label>
+
+                  <input
+                    type="text"
+                    required
+                    placeholder="MM/YY"
+                    className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+                  />
+
+                </div>
+
+
+                <div>
+
+                  <label className="text-lg font-medium">
+                    CVV
+                  </label>
+
+                  <input
+                    type="password"
+                    required
+                    maxLength={3}
+                    placeholder="123"
+                    className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
+                  />
+
+                </div>
 
               </div>
 
@@ -225,17 +395,40 @@ function CheckoutForm() {
 
         </div>
 
-        {/* Place Order */}
-        <button
-          type="submit"
-          className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
-        >
-          Place Order
-        </button>
+      </div>
 
-      </form>
 
-    </div>
+      {/* =========================
+          PLACE ORDER
+      ========================== */}
+
+      <button
+        type="submit"
+        className="mt-10 w-full rounded-lg bg-blue-600 py-4 text-lg font-bold text-white transition hover:bg-blue-700"
+      >
+        Place Order
+      </button>
+
+
+      {/* =========================
+          SUCCESS MESSAGE
+      ========================== */}
+
+      {orderPlaced && (
+        <div className="mt-5 rounded-lg bg-green-100 p-5 text-center text-green-700">
+
+          <p className="text-xl font-bold">
+            🎉 Order Placed Successfully!
+          </p>
+
+          <p className="mt-2">
+            Thank you for shopping with ShopMart.
+          </p>
+
+        </div>
+      )}
+
+    </form>
   );
 }
 

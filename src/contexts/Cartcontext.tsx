@@ -1,6 +1,14 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+} from "react";
+
 import type { ReactNode } from "react";
 
+// -----------------------------
+// Cart Item
+// -----------------------------
 type CartItem = {
   id: number;
   name: string;
@@ -9,6 +17,9 @@ type CartItem = {
   quantity: number;
 };
 
+// -----------------------------
+// Product added to cart
+// -----------------------------
 type CartProduct = {
   id: number;
   name: string;
@@ -16,6 +27,9 @@ type CartProduct = {
   image: string;
 };
 
+// -----------------------------
+// Cart Context Type
+// -----------------------------
 type CartContextType = {
   cartItems: CartItem[];
 
@@ -28,25 +42,62 @@ type CartContextType = {
   removeItem: (id: number) => void;
 };
 
+// -----------------------------
+// Create Context
+// -----------------------------
 const CartContext = createContext<CartContextType | null>(null);
 
+// -----------------------------
+// Cart Provider
+// -----------------------------
 export function CartProvider({
   children,
 }: {
   children: ReactNode;
 }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+  // Get cart from localStorage when application starts
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+
+    const savedCart = localStorage.getItem("cart");
+
+    if (savedCart) {
+      return JSON.parse(savedCart);
+    }
+
+    return [];
+  });
+
+
+  // -----------------------------
+  // Save cart to localStorage
+  // -----------------------------
+  function saveCart(items: CartItem[]) {
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(items)
+    );
+
+  }
+
+
+  // -----------------------------
   // ADD TO CART
+  // -----------------------------
   function addToCart(product: CartProduct) {
+
     setCartItems((items) => {
+
       const existingItem = items.find(
         (item) => item.id === product.id
       );
 
+
       // Product already exists
       if (existingItem) {
-        return items.map((item) =>
+
+        const updatedItems = items.map((item) =>
           item.id === product.id
             ? {
                 ...item,
@@ -54,54 +105,100 @@ export function CartProvider({
               }
             : item
         );
+
+        saveCart(updatedItems);
+
+        return updatedItems;
       }
 
+
       // New product
-      return [
+      const updatedItems = [
         ...items,
         {
           ...product,
           quantity: 1,
         },
       ];
+
+      saveCart(updatedItems);
+
+      return updatedItems;
+
     });
   }
 
+
+  // -----------------------------
   // INCREASE QUANTITY
+  // -----------------------------
   function increaseQuantity(id: number) {
-    setCartItems((items) =>
-      items.map((item) =>
+
+    setCartItems((items) => {
+
+      const updatedItems = items.map((item) =>
         item.id === id
           ? {
               ...item,
               quantity: item.quantity + 1,
             }
           : item
-      )
-    );
+      );
+
+      saveCart(updatedItems);
+
+      return updatedItems;
+
+    });
   }
 
+
+  // -----------------------------
   // DECREASE QUANTITY
+  // -----------------------------
   function decreaseQuantity(id: number) {
-    setCartItems((items) =>
-      items.map((item) =>
+
+    setCartItems((items) => {
+
+      const updatedItems = items.map((item) =>
         item.id === id && item.quantity > 1
           ? {
               ...item,
               quantity: item.quantity - 1,
             }
           : item
-      )
-    );
+      );
+
+      saveCart(updatedItems);
+
+      return updatedItems;
+
+    });
   }
 
+
+  // -----------------------------
   // REMOVE ITEM
+  // -----------------------------
   function removeItem(id: number) {
-    setCartItems((items) =>
-      items.filter((item) => item.id !== id)
-    );
+
+    setCartItems((items) => {
+
+      const updatedItems = items.filter(
+        (item) => item.id !== id
+      );
+
+      saveCart(updatedItems);
+
+      return updatedItems;
+
+    });
   }
 
+
+  // -----------------------------
+  // Provider
+  // -----------------------------
   return (
     <CartContext.Provider
       value={{
@@ -117,8 +214,12 @@ export function CartProvider({
   );
 }
 
-// CUSTOM HOOK
+
+// -----------------------------
+// Custom Hook
+// -----------------------------
 export function useCart() {
+
   const context = useContext(CartContext);
 
   if (!context) {
@@ -129,4 +230,3 @@ export function useCart() {
 
   return context;
 }
-

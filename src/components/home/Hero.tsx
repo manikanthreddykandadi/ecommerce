@@ -1,51 +1,60 @@
+import { Link } from "react-router-dom";
+
 export default function Hero() {
   return (
     <section className="bg-gray-100">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-12">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-16 lg:grid-cols-2">
 
-          {/* Left Content */}
-          <div className="w-full lg:w-1/2">
+        {/* Left Content */}
+        <div>
 
-            <p className="text-blue-600 font-semibold uppercase tracking-wider">
-              New Collection 2026
-            </p>
+          <p className="mb-6 text-xl font-semibold tracking-wide text-blue-600">
+            NEW COLLECTION 2026
+          </p>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-4 leading-tight">
-              Discover Amazing Products
-            </h1>
+          <h1 className="text-5xl font-bold leading-tight text-slate-900 lg:text-7xl">
+            Discover Amazing
+            <br />
+            Products
+          </h1>
 
-            <p className="text-gray-600 mt-6 text-lg leading-relaxed">
-              Shop the latest fashion, electronics, accessories, and lifestyle
-              products with exciting offers and fast delivery.
-            </p>
+          <p className="mt-8 max-w-xl text-lg leading-8 text-gray-600">
+            Shop the latest fashion, electronics, accessories, and lifestyle
+            products with exciting offers and fast delivery.
+          </p>
 
-            <div className="flex flex-wrap gap-4 mt-8">
+          {/* Buttons */}
+          <div className="mt-10 flex gap-5">
 
-              <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
-                Shop Now
-              </button>
+            {/* Shop Now */}
+            <Link
+              to="/products"
+              className="rounded-lg bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700"
+            >
+              Shop Now
+            </Link>
 
-              <button className="border border-gray-800 px-8 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition">
-                Explore
-              </button>
-
-            </div>
-
-          </div>
-
-          {/* Right Image */}
-          <div className="w-full lg:w-1/2 flex justify-center">
-
-            <img
-              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700"
-              alt="Shopping"
-              className="rounded-xl shadow-lg w-full max-w-md object-cover"
-            />
+            {/* Explore */}
+            <Link
+              to="/products"
+              className="rounded-lg border border-gray-500 bg-white px-8 py-4 font-semibold text-gray-900 transition hover:bg-gray-100"
+            >
+              Explore
+            </Link>
 
           </div>
 
         </div>
+
+        {/* Right Image */}
+        <div className="overflow-hidden rounded-2xl shadow-lg">
+          <img
+            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+            alt="Smart Watch"
+            className="h-[470px] w-full object-cover"
+          />
+        </div>
+
       </div>
     </section>
   );

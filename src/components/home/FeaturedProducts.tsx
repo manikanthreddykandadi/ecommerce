@@ -1,43 +1,53 @@
+import { Link } from "react-router-dom";
 import { products } from "../../data/products";
-import type { Product } from "../../types/Product";
 import ProductCard from "../products/ProductCard";
 
-export default function FeaturedProducts() {
-  return (
-    <section className="py-16 bg-gray-100">
-      <div className="max-w-7xl mx-auto px-6">
+function FeaturedProducts() {
+  const featuredProducts = products.slice(0, 4);
 
-        {/* Heading */}
+  return (
+    <section className="bg-gray-100 py-16">
+      <div className="mx-auto max-w-7xl px-6">
+
+        {/* Heading + View All */}
         <div className="flex items-center justify-between mb-10">
 
           <div>
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-4xl font-bold text-gray-900">
               Featured Products
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-600 mt-3">
               Discover our most popular products.
             </p>
           </div>
 
-          <button className="hidden md:block bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+          {/* View All Button */}
+          <Link
+            to="/products"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg
+                       hover:bg-blue-700 transition font-medium"
+          >
             View All
-          </button>
+          </Link>
 
         </div>
 
-        {/* Products */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Product Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          {products.slice(0,4).map((product: Product)=>(
-          <ProductCard
-            key={product.id}
-            {...product}
-          />
+          {featuredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              {...product}
+            />
           ))}
+
         </div>
 
       </div>
     </section>
   );
 }
+
+export default FeaturedProducts;
