@@ -9,7 +9,7 @@ export default function Hero() {
         <div>
 
           <p className="mb-6 text-xl font-semibold tracking-wide text-blue-600">
-            Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani Mani 
+            NEW COLLECTION 2026
           </p>
 
           <h1 className="text-5xl font-bold leading-tight text-slate-900 lg:text-7xl">
