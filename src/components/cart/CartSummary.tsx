@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 
 type CartSummaryProps = {
   subtotal: number;
+  itemCount: number;
 };
 
 export default function CartSummary({
   subtotal,
+  itemCount,
 }: CartSummaryProps) {
 
   const navigate = useNavigate();
@@ -58,7 +60,8 @@ export default function CartSummary({
       <button
         type="button"
         onClick={handleCheckout}
-        className="mt-6 w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
+        disabled={itemCount === 0}
+        className="mt-6 w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
       >
         Proceed to Checkout
       </button>

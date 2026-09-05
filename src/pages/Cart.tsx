@@ -8,6 +8,7 @@ function Cart() {
     increaseQuantity,
     decreaseQuantity,
     removeItem,
+    itemCount,
   } = useCart();
 
   let subtotal = 0;
@@ -77,6 +78,7 @@ function Cart() {
           {/* Summary */}
           <CartSummary
             subtotal={subtotal}
+            itemCount={itemCount}
           />
 
         </div>

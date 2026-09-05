@@ -1,13 +1,33 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../contexts/CartContext";
+import { saveOrder } from "../../utils/orders";
 
 function CheckoutForm() {
   const [paymentMethod, setPaymentMethod] = useState("cod");
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  const navigate = useNavigate();
+  const { cartItems, subtotal, clearCart } = useCart();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    setOrderPlaced(true);
+    if (!cartItems.length) return;
+    const formData = new FormData(e.currentTarget);
+    const orderId = `SM-${Date.now().toString(36).toUpperCase()}`;
+    saveOrder({
+      id: orderId,
+      createdAt: new Date().toISOString(),
+      status: "Confirmed",
+      paymentMethod,
+      total: subtotal,
+      items: cartItems,
+      customer: {
+        name: String(formData.get("name") ?? ""),
+        email: String(formData.get("email") ?? ""),
+        address: String(formData.get("address") ?? ""),
+      },
+    });
+    clearCart();
+    navigate(`/order-success?orderId=${orderId}`);
   }
 
   return (
@@ -36,6 +56,7 @@ function CheckoutForm() {
 
         <input
           type="text"
+          name="name"
           required
           placeholder="Enter your full name"
           className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
@@ -53,6 +74,7 @@ function CheckoutForm() {
 
           <input
             type="email"
+            name="email"
             required
             placeholder="Enter your email"
             className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
@@ -67,6 +89,7 @@ function CheckoutForm() {
 
           <input
             type="tel"
+            name="phone"
             required
             placeholder="Enter your phone number"
             className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
@@ -96,6 +119,7 @@ function CheckoutForm() {
         </label>
 
         <textarea
+          name="address"
           required
           placeholder="Enter your complete address"
           rows={5}
@@ -117,6 +141,7 @@ function CheckoutForm() {
 
           <input
             type="text"
+            name="city"
             required
             placeholder="Enter city"
             className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
@@ -133,6 +158,7 @@ function CheckoutForm() {
 
           <input
             type="text"
+            name="state"
             required
             placeholder="Enter state"
             className="mt-2 w-full rounded-lg border border-gray-300 p-4 outline-none focus:border-blue-600"
@@ -408,26 +434,6 @@ function CheckoutForm() {
       >
         Place Order
       </button>
-
-
-      {/* =========================
-          SUCCESS MESSAGE
-      ========================== */}
-
-      {orderPlaced && (
-        <div className="mt-5 rounded-lg bg-green-100 p-5 text-center text-green-700">
-
-          <p className="text-xl font-bold">
-            🎉 Order Placed Successfully!
-          </p>
-
-          <p className="mt-2">
-            Thank you for shopping with ShopMart.
-          </p>
-
-        </div>
-      )}
-
     </form>
   );
 }

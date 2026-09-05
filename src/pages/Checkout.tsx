@@ -1,7 +1,15 @@
 import CheckoutForm from "../components/checkout/CheckoutForm";
 import OrderSummary from "../components/checkout/OrderSummary";
+import { Link } from "react-router-dom";
+import { useCart } from "../contexts/CartContext";
 
 function Checkout() {
+  const { itemCount } = useCart();
+
+  if (!itemCount) {
+    return <section className="min-h-screen bg-gray-50 px-6 py-16 text-center"><h1 className="text-3xl font-bold">Your cart is empty</h1><p className="mt-3 text-gray-600">Add products before starting checkout.</p><Link to="/products" className="mt-6 inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white">Browse products</Link></section>;
+  }
+
   return (
     <section className="min-h-screen bg-gray-50 py-12">
 

@@ -1,4 +1,14 @@
-function ProductFilters() {
+type ProductFiltersProps = {
+  search: string;
+  category: string;
+  sort: string;
+  categories: string[];
+  onSearchChange: (value: string) => void;
+  onCategoryChange: (value: string) => void;
+  onSortChange: (value: string) => void;
+};
+
+function ProductFilters({ search, category, sort, categories, onSearchChange, onCategoryChange, onSortChange }: ProductFiltersProps) {
   return (
     <div
       className="
@@ -41,6 +51,8 @@ function ProductFilters() {
           <input
             type="text"
             placeholder="Search..."
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
             className="
             w-full
             border
@@ -77,6 +89,8 @@ function ProductFilters() {
 
 
           <select
+            value={category}
+            onChange={(event) => onCategoryChange(event.target.value)}
             className="
             w-full
             border
@@ -87,25 +101,8 @@ function ProductFilters() {
             "
           >
 
-            <option>
-              All Categories
-            </option>
-
-            <option>
-              Electronics
-            </option>
-
-            <option>
-              Fashion
-            </option>
-
-            <option>
-              Shoes
-            </option>
-
-            <option>
-              Home
-            </option>
+            <option value="all">All Categories</option>
+            {categories.map((item) => <option key={item} value={item}>{item}</option>)}
 
 
           </select>
@@ -135,6 +132,8 @@ function ProductFilters() {
 
 
           <select
+            value={sort}
+            onChange={(event) => onSortChange(event.target.value)}
             className="
             w-full
             border
@@ -145,19 +144,9 @@ function ProductFilters() {
             "
           >
 
-            <option>
-              Latest
-            </option>
-
-
-            <option>
-              Price Low To High
-            </option>
-
-
-            <option>
-              Price High To Low
-            </option>
+            <option value="latest">Latest</option>
+            <option value="price-asc">Price Low To High</option>
+            <option value="price-desc">Price High To Low</option>
 
 
           </select>

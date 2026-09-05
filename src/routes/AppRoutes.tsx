@@ -11,6 +11,10 @@ import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import OrderSuccess from "../pages/OrderSuccess";
 import Register from "../pages/Register";
+import Account from "../pages/Account";
+import Orders from "../pages/Orders";
+import Wishlist from "../pages/Wishlist";
+import RequireAuth from "./RequireAuth";
 
 function AppRoutes() {
   return (
@@ -20,17 +24,18 @@ function AppRoutes() {
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/products" element={<Products />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/orders" element={<Orders />} />
+        </Route>
+        <Route path="/order-success" element={<OrderSuccess />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
-      <Route
-  path="/order-success"
-  element={<OrderSuccess />}
-/>
 
     </Routes>
   );

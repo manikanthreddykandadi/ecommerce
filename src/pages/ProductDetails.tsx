@@ -1,121 +1,64 @@
-import { useParams, Link } from "react-router-dom";
-
-const products = [
-  {
-    id: 1,
-    title: "Premium Running Shoes",
-    image: "https://picsum.photos/600/600?1",
-    category: "Shoes",
-    price: 2999,
-    rating: 4.8,
-  },
-  {
-    id: 2,
-    title: "Classic Black Watch",
-    image: "https://picsum.photos/600/600?2",
-    category: "Watch",
-    price: 4999,
-    rating: 4.6,
-  },
-  {
-    id: 3,
-    title: "Leather Backpack",
-    image: "https://picsum.photos/600/600?3",
-    category: "Bags",
-    price: 1999,
-    rating: 4.5,
-  },
-  {
-    id: 4,
-    title: "Wireless Headphones",
-    image: "https://picsum.photos/600/600?4",
-    category: "Electronics",
-    price: 3499,
-    rating: 4.7,
-  },
-];
+import { useEffect, useState } from "react";
+import { Heart, ShoppingBag } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import { useCart } from "../contexts/CartContext";
+import { useWishlist } from "../contexts/WishlistContext";
+import { fetchProduct } from "../services/productService";
+import type { Product } from "../types/Product";
 
 function ProductDetails() {
   const { id } = useParams();
+  const [product, setProduct] = useState<Product>();
+  const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
+  const { toggleWishlist, isWishlisted } = useWishlist();
 
-  const product = products.find(
-    (product) => product.id === Number(id)
-  );
+  useEffect(() => {
+    fetchProduct(Number(id)).then((item) => {
+      setProduct(item);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (loading) {
+    return <section className="mx-auto max-w-7xl px-6 py-16 text-center text-gray-600">Loading product...</section>;
+  }
 
   if (!product) {
     return (
-      <section className="max-w-7xl mx-auto px-6 py-10">
-        <h1 className="text-3xl font-bold mb-4">
-          Product Not Found
-        </h1>
-
-        <Link
-          to="/products"
-          className="text-blue-600 hover:underline"
-        >
-          Back to Products
-        </Link>
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <h1 className="mb-4 text-3xl font-bold">Product Not Found</h1>
+        <Link to="/products" className="text-blue-600 hover:underline">Back to Products</Link>
       </section>
     );
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10">
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-
-        {/* Product Image */}
-
-        <div>
-          <img
-            src={product.image}
-            alt={product.title}
-            className="w-full rounded-xl shadow"
-          />
+    <section className="mx-auto max-w-7xl px-6 py-10">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="overflow-hidden rounded-xl bg-white shadow">
+          <img src={product.image} alt={product.name} className="h-full max-h-[560px] w-full object-cover" />
         </div>
-
-        {/* Product Details */}
-
         <div>
-
-          <p className="text-blue-600 font-semibold">
-            {product.category}
-          </p>
-
-          <h1 className="text-4xl font-bold mt-2">
-            {product.title}
-          </h1>
-
-          <p className="text-yellow-500 mt-4">
-            ⭐ {product.rating}
-          </p>
-
-          <h2 className="text-3xl font-bold text-blue-600 mt-6">
-            ₹{product.price}
-          </h2>
-
-          <p className="text-gray-600 mt-6">
-            This is a premium quality product with modern
-            design, excellent build quality, and comfortable
-            everyday use.
-          </p>
-
-          <div className="flex gap-4 mt-8">
-
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
-              Add to Cart
-            </button>
-
-            <button className="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-100">
-              ❤️ Wishlist
-            </button>
-
+          <p className="font-semibold text-blue-600">{product.category}</p>
+          <h1 className="mt-2 text-4xl font-bold">{product.name}</h1>
+          <p className="mt-4 text-yellow-500">★ {product.rating.toFixed(1)}</p>
+          <div className="mt-6 flex items-center gap-3">
+            <h2 className="text-3xl font-bold text-blue-600">₹{product.price}</h2>
+            <span className="text-gray-400 line-through">₹{product.oldPrice}</span>
           </div>
-
+          <p className="mt-6 leading-7 text-gray-600">{product.description}</p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <button onClick={() => addToCart(product)} className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700">
+              <ShoppingBag size={18} /> Add to Cart
+            </button>
+            <button onClick={() => toggleWishlist(product.id)} className="flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-3 hover:bg-gray-100">
+              <Heart size={18} fill={isWishlisted(product.id) ? "currentColor" : "none"} />
+              {isWishlisted(product.id) ? "Saved" : "Wishlist"}
+            </button>
+          </div>
         </div>
-
       </div>
-
     </section>
   );
 }

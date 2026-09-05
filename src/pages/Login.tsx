@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 
 import { useAuth } from "../contexts/ContextAuth";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -23,7 +24,8 @@ function Login() {
     try {
       await login(email, password);
 
-      navigate("/");
+      const destination = (location.state as { from?: string } | null)?.from ?? "/";
+      navigate(destination, { replace: true });
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {
